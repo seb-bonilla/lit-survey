@@ -34,7 +34,7 @@ Activate `literature-survey` each time you open a new prompt. All Python command
 
 ## Configure your library
 
-Set `literature_root` in `Py-tools/project_config.json` to your paper library. Relative paths are resolved from `Py-tools`; the default `../literature` means a `literature` folder in the repository root. Create subject folders inside your library. Keep private papers and outputs out of the public repository.
+Set `literature_root` in `Py-tools/project_config.json` to your paper library. Relative paths are resolved from `Py-tools`; the default `../literature` means a `literature` folder in the repository root. Subject subfolders are optional. This configuration is used for `root`, subject-name selection, and default figure output; explicit conversion paths do not require it. Keep private papers and outputs out of the public repository.
 
 ## Download conversion models once
 
@@ -68,15 +68,43 @@ Alternatively, from that same repository folder and activated PowerShell environ
 
 ## PDF to Markdown
 
+Run these commands from the repository root with `literature-survey` activated.
+
+List the configured library root, PDFs stored directly there, and subject subfolders with PDF counts:
+
 ```bat
 python Py-tools/convert_pdfs.py --list-folders
+```
+
+Select `root` to convert PDFs directly in the configured library **and in its subfolders**. No subject folders are required:
+
+```bat
+python Py-tools/convert_pdfs.py --folder root --dry-run
+python Py-tools/convert_pdfs.py --folder root
+```
+
+Select a subject by its name to process only that folder and its subfolders:
+
+```bat
 python Py-tools/convert_pdfs.py --folder "My subject" --dry-run
 python Py-tools/convert_pdfs.py --folder "My subject"
 ```
 
-The converter searches the selected immediate child folder recursively and writes a flat `markdown` folder there. Repeated stems receive folder prefixes. Existing Markdown is preserved unless `--overwrite` is requested. PDFs longer than 30 pages and `REPEATED_` files are skipped; these limits do not define your research scope.
+Or select any folder on your computer by its full path, without setting or reading `project_config.json`:
 
-Inspect the output against the original PDF, especially equations, symbols, tables, and reading order. Existing conversions are retained even if created with a different converter.
+```bat
+python Py-tools/convert_pdfs.py --folder "D:\Research\Papers" --list-folders
+python Py-tools/convert_pdfs.py --folder "D:\Research\Papers" --dry-run
+python Py-tools/convert_pdfs.py --folder "D:\Research\Papers"
+```
+
+Explicit relative paths such as `./papers`, `../papers`, and `.` also work without configuration and are resolved from your current prompt folder. A bare name such as `"My subject"` selects a subfolder of the configured library; use `./root` for a real folder named `root`, since the bare word `root` is reserved for the configured library.
+
+`--list-folders` only lists files and folders. `--dry-run` previews conversion and skips without creating Markdown. Remove `--dry-run` to convert. Counts include PDFs that may later be skipped because of the page limit.
+
+All selected PDFs are searched recursively. Output goes into one flat `markdown` directory inside the selected folder, including when selecting `root` or an external path. Repeated filenames receive folder prefixes. Generated `markdown`, `temp_figs`, and model folders are excluded at every level. Existing Markdown is preserved unless `--overwrite` is requested. PDFs longer than 30 pages and `REPEATED_` files are skipped; these limits do not define your research scope.
+
+The converter still uses the Docling models downloaded into this repository's `Py-tools/docling-models`; choosing an external PDF folder does not relocate the models. Inspect output against the original PDF, especially equations, symbols, tables, and reading order.
 
 ## Extract complete figures
 

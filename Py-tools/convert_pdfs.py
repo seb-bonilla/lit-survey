@@ -1,4 +1,4 @@
-"""Recursively convert one literature mother folder's PDFs to flat Markdown."""
+"""Recursively convert PDFs in a configured library or any selected folder to Markdown."""
 
 from __future__ import annotations
 
@@ -32,9 +32,6 @@ def load_project_root() -> Path:
     return project_root
 
 
-PROJECT_ROOT: Path
-
-
 def native_path(path: Path) -> str:
     """Return a Windows extended path when needed for long filenames."""
     value = str(path.resolve())
@@ -51,68 +48,46 @@ def configure_console() -> None:
             reconfigure(encoding="utf-8", errors="replace")
 
 
-def top_level_folders() -> list[Path]:
+EXCLUDED_DIRECTORIES = {"markdown", "temp_figs", "docling-models", ".git", ".venv", "__pycache__"}
+
+
+def top_level_folders(root: Path) -> list[Path]:
     return sorted(
-        (
-            path
-            for path in PROJECT_ROOT.iterdir()
-            if path.is_dir() and not path.name.startswith(".")
-        ),
+        (path for path in root.iterdir() if path.is_dir()
+         and not path.name.startswith(".")
+         and path.name.casefold() not in EXCLUDED_DIRECTORIES),
         key=lambda path: path.name.casefold(),
     )
 
 
 def resolve_selected_folder(folder_name: str) -> Path:
-    candidate = (PROJECT_ROOT / folder_name).resolve()
-    if candidate.parent != PROJECT_ROOT.resolve():
-        raise ValueError(
-            "--folder must name one immediate child folder of the project root"
-        )
+    if folder_name.casefold() == "root":
+        return load_project_root()
+    selected = Path(folder_name).expanduser()
+    # Explicit paths never require configuration. Bare names select library subjects.
+    explicit_path = (selected.is_absolute() or folder_name in {".", ".."}
+                     or "/" in folder_name or "\\" in folder_name
+                     or folder_name.startswith("~"))
+    candidate = selected.resolve() if explicit_path else (load_project_root() / selected).resolve()
     if not candidate.is_dir():
-        raise ValueError(f"folder does not exist: {folder_name}")
+        raise ValueError(f"Folder does not exist: {candidate}")
     return candidate
 
 
 def pdf_files_in(folder: Path) -> list[Path]:
-    if os.name == "nt":
-        root = native_path(folder)
-        pdf_files: list[Path] = []
-        for directory, child_dirs, filenames in os.walk(root):
-            relative_dir = os.path.relpath(directory, root)
-            if relative_dir == ".":
-                child_dirs[:] = [
-                    name
-                    for name in child_dirs
-                    if name.casefold() != OUTPUT_DIRECTORY_NAME.casefold()
-                ]
-            for filename in filenames:
-                if Path(filename).suffix.casefold() != ".pdf":
-                    continue
-                if filename.casefold().startswith("repeated_"):
-                    continue
-                value = os.path.join(directory, filename)
-                if value.startswith("\\\\?\\"):
-                    value = value[4:]
-                pdf_files.append(Path(value))
-        return sorted(
-            pdf_files,
-            key=lambda path: str(path.relative_to(folder)).casefold(),
-        )
-
+    # Prune derived output at every level, including when selecting the library root.
     pdf_files: list[Path] = []
-    for path in folder.rglob("*"):
-        if not path.is_file() or path.suffix.casefold() != ".pdf":
-            continue
-        if path.name.casefold().startswith("repeated_"):
-            continue
-        relative = path.relative_to(folder)
-        if relative.parts[0].casefold() == OUTPUT_DIRECTORY_NAME.casefold():
-            continue
-        pdf_files.append(path)
-    return sorted(
-        pdf_files,
-        key=lambda path: str(path.relative_to(folder)).casefold(),
-    )
+    for directory, child_dirs, filenames in os.walk(native_path(folder), followlinks=False):
+        child_dirs[:] = [name for name in child_dirs
+                         if name.casefold() not in EXCLUDED_DIRECTORIES]
+        for filename in filenames:
+            if Path(filename).suffix.casefold() != ".pdf" or filename.casefold().startswith("repeated_"):
+                continue
+            value = os.path.join(directory, filename)
+            if value.startswith("\\\\?\\"):
+                value = value[4:]
+            pdf_files.append(Path(value))
+    return sorted(pdf_files, key=lambda path: str(path.relative_to(folder)).casefold())
 
 
 def output_jobs(folder: Path, pdf_files: list[Path]) -> list[tuple[Path, Path]]:
@@ -151,29 +126,35 @@ def pdf_page_count(pdf_file: Path) -> int:
         document.close()
 
 
-def print_folder_inventory() -> None:
-    print("Selectable top-level literature folders:")
-    for folder in top_level_folders():
+def print_folder_inventory(root: Path) -> None:
+    files = pdf_files_in(root)
+    direct = [path for path in files if path.parent == root]
+    print(f"Root: {root}")
+    print(f"  root: {len(direct)} direct PDF(s), {len(files)} recursive PDF(s)")
+    for path in direct:
+        print(f"    {path.name}")
+    print("Subject folders:")
+    for folder in top_level_folders(root):
         print(f"  {folder.name}: {len(pdf_files_in(folder))} recursive PDF(s)")
+    print("Counts exclude generated folders and REPEATED_ files; page limits are checked during conversion.")
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description=(
-            "Recursively convert PDFs in one top-level literature folder into "
+            "Recursively convert PDFs in a selected folder into "
             "one flat Markdown directory."
         )
     )
-    selection = parser.add_mutually_exclusive_group(required=True)
-    selection.add_argument(
+    parser.add_argument(
         "--folder",
-        metavar="NAME",
-        help="name of one immediate child folder of the project root",
+        metavar="NAME_OR_PATH",
+        help="root, a configured subject name, or any absolute/explicit relative folder path",
     )
-    selection.add_argument(
+    parser.add_argument(
         "--list-folders",
         action="store_true",
-        help="list selectable folders and recursive PDF counts",
+        help="list the configured root (or --folder path), direct PDFs, and subject folder counts",
     )
     parser.add_argument(
         "--dry-run",
@@ -312,7 +293,7 @@ def convert_folder(
     duplicate_pdf_count = sum(
         count for count in Counter(pdf.stem.casefold() for pdf in pdf_files).values() if count > 1
     )
-    print(f"Mother folder: {folder}")
+    print(f"Selected folder: {folder}")
     print(
         f"Found: {len(pdf_files)} PDF(s) "
         f"({top_level_count} top-level, {len(pdf_files) - top_level_count} nested)"
@@ -372,21 +353,16 @@ def convert_folder(
 def main() -> int:
     configure_console()
     args = build_parser().parse_args()
-    global PROJECT_ROOT
+    if not args.folder and not args.list_folders:
+        build_parser().error("provide --folder NAME_OR_PATH or --list-folders")
     try:
-        PROJECT_ROOT = load_project_root()
-    except RuntimeError as exc:
+        folder = resolve_selected_folder(args.folder) if args.folder else load_project_root()
+    except (ValueError, RuntimeError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 2
     if args.list_folders:
-        print_folder_inventory()
+        print_folder_inventory(folder)
         return 0
-
-    try:
-        folder = resolve_selected_folder(args.folder)
-    except ValueError as exc:
-        print(f"Error: {exc}", file=sys.stderr)
-        return 2
 
     return convert_folder(
         folder,
