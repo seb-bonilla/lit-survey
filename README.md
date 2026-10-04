@@ -6,6 +6,8 @@ Use your literature survey to explore a research theme or question, compare evid
 
 Keep the original papers nicely organised so you can go back to them. In this workflow I also teach you how to use an Excel database to record your own thinking as well as the data processing you do to the results of the literature, and keep developing your own conclusions connected to papers, so that important claims can be checked and updated.
 
+For people in Oxford Materials, you can watch this training video: https://unioxfordnexus.sharepoint.com/:v:/r/sites/OUMS-Bonilla-Lab/Shared%20Documents/Video%20Training%20Catalogue/2026_October_Literature%20survey%20workflow.mp4?d=w77b20d0810f540b5bd991e49b0c5533b&csf=1&web=1&e=kTdfLs
+
 ## 1. Start with a topic, theme or question
 
 Decide the main research theme in one or two sentences. It can be a question, but it can also be very broad. Add a few subquestions/subtopics and decide which measurements, methods, or findings would help answer them. Set an initial scope and clear reasons for including or excluding papers.
