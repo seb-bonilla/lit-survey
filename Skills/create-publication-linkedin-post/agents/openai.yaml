@@ -1,0 +1,4 @@
+interface:
+  display_name: "Publication LinkedIn post"
+  short_description: "Draft posts, figure carousels, links and collaborator tags"
+  default_prompt: "Use $create-publication-linkedin-post to prepare a LinkedIn publication pack for the selected paper."

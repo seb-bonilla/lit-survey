@@ -1,0 +1,4 @@
+interface:
+  display_name: "Extract Paper Figures"
+  short_description: "Extract figures and captions from a selected PDF"
+  default_prompt: "Use $extract-paper-figures to extract the figures and captions from this selected paper."

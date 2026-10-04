@@ -1,0 +1,4 @@
+interface:
+  display_name: "Make Literature Survey"
+  short_description: "Write concise surveys of selected literature folders"
+  default_prompt: "Use $make-literature-survey to create or update literature surveys for the selected mother folders."

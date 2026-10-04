@@ -1,0 +1,5 @@
+interface:
+  display_name: "Sebastian's Writing Style"
+  short_description: "Direct, accurate and efficient scientific prose"
+  default_prompt: "Use $sebastian-writing-style to draft or revise this scientific text in Sebastian's style."
+

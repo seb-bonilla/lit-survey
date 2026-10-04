@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research Project Brief"
+  short_description: "Draft lean, focused research project briefs"
+  default_prompt: "Use $research-project-brief to turn my notes into a concise brief focused on the key targets and work required."

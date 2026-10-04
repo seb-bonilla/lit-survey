@@ -1,0 +1,4 @@
+interface:
+  display_name: Meeting Summary
+  short_description: Create email-ready summaries from meeting transcripts
+  default_prompt: Scan the meetings folder in this project for new transcript files and create a plain-text executive summary for each one. Put the email draft first, followed by the executive summary, main discussion summary, and main action points with owners. Skip transcripts that already have matching _executive_summary.txt files.

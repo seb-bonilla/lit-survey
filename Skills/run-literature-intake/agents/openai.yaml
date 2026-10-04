@@ -1,0 +1,4 @@
+interface:
+  display_name: "Run Literature Intake"
+  short_description: "Process, classify, and file new literature"
+  default_prompt: "Use $run-literature-intake to process everything currently in the Literature Intake folder."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Rename Literature Papers"
+  short_description: "Rename paired papers without moving their folders"
+  default_prompt: "Use $rename-literature-papers to rename every matching PDF and Markdown pair in a selected literature mother folder."

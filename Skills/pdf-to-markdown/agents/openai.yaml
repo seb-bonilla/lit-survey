@@ -1,0 +1,4 @@
+interface:
+  display_name: "PDF to Markdown"
+  short_description: "Convert a literature folder of PDFs to Markdown"
+  default_prompt: "Use $pdf-to-markdown to convert the PDFs in a selected mother folder to Markdown."

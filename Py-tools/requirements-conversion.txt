@@ -1,0 +1,5 @@
+firecrawl-anydoc==0.2.4
+docling[rapidocr]==2.131.0
+pip-system-certs==5.3
+
+pypdfium2

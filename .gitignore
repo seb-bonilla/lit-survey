@@ -1,0 +1,10 @@
+# Local environments and generated tool assets
+.venv/
+__pycache__/
+*.py[cod]
+Py-tools/docling-models/
+# Default private student collection and database
+literature/
+data/*.xlsx
+# Separate backups and operational scratch
+backups/

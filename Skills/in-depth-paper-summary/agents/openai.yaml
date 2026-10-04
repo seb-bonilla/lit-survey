@@ -1,0 +1,4 @@
+interface:
+  display_name: "In-Depth Paper Summary"
+  short_description: "Read an abstract, 200-word summary, and all figures"
+  default_prompt: "Use $in-depth-paper-summary for the selected paper: show its abstract, a 200-word summary of its discussion and conclusions, and all extracted figures and panels directly in chat."
