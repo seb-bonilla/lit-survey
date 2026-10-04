@@ -1,138 +1,89 @@
 # Starting and maintaining your literature survey
 
-Build a literature survey that helps you answer a research question, compare evidence, and identify what to investigate next. Keep the original papers, a structured Excel database, and your developing conclusions connected so that every important claim can be checked and updated.
+Use your literature survey to answer a research question, compare evidence, and identify what to investigate next. Keep the original papers, an Excel database, and your developing conclusions connected so that important claims can be checked and updated.
 
-This guide adapts the [Project 1 manual](https://github.com/seb-bonilla/literature-site/blob/main/manual.md) and the supplied Project 1 and Project 2 contexts and skills. The supplied `izro_literature.xlsx` and `izro_literature_v2.xlsx` workbooks are motivating examples: its materials-science properties illustrate the structure, but your own database should use fields appropriate to your question.
+## 1. Start with a question
 
-## 1. Define what you need to learn
+Write your main research question in one or two sentences. Add a few subquestions and decide which measurements, methods, or findings would help answer them. Set an initial scope and clear reasons for including or excluding papers.
 
-Write your main research question in one or two sentences. Add subquestions and identify the observations that would help answer them. Agree on an initial scope: topics, methods, date range, and reasons for including or excluding papers.
+Begin with a small batch of important papers. Use them to test your database structure before collecting large amounts of data.
 
-For example, a survey of zirconium-doped indium oxide could ask how deposition and annealing affect electrical and optical properties. Useful fields might include composition, thickness, processing conditions, mobility, carrier concentration, and measurement method. Another topic will need different fields.
+## 2. Find and organise papers
 
-Start with a small batch of important papers. Test the database structure before extracting a large collection.
+Search using topic names, synonyms, methods, properties, and applications. Include reviews, foundational papers, recent studies, and contradictory results. Follow references and papers that cite useful studies.
 
-## 2. Search, collect, and prioritise
+Keep two simple records:
 
-Search your institution's literature databases and publisher sources using topic names, abbreviations, synonyms, properties, methods, and applications. Include reviews, foundational work, recent studies, and results that challenge an emerging conclusion. Follow both references and later citing papers.
+- A search log: date, search source, query, filters, and useful results.
+- A reading queue: paper, priority, reading status, and next action.
 
-Keep a dated search log with the source, exact query, filters, useful results, and inclusion decisions. Keep a reading queue with priority, full-text availability, reading status, and next action. Deduplicate by DOI and title. A saved PDF does not mean its evidence has been checked.
+Save original PDFs and use a reference manager if helpful. Check DOI and title to avoid duplicate records. Read the abstract, figures, tables, and conclusions first, then decide which papers deserve detailed reading.
 
-Store original PDFs locally and use a reference manager if it helps manage citations. Triage papers by reading the title, abstract, figures, tables, and conclusions, then inspect methods and relevant results. Spend detailed extraction time on papers that address your questions.
+## 3. Build your Excel database
 
-## 3. Make Excel your working database
+Use separate sheets for different kinds of information:
 
-Use the example workbook to understand the division of responsibilities. Preserve an existing workbook's headers, units, identifiers, and formatting rather than imposing a new layout.
+| Sheet | Purpose |
+| --- | --- |
+| `Papers` | One row per publication: citation, DOI, source file, relevance, and reading status |
+| `Reported Data` | One row per distinct observation or experimental condition: values, units, methods, conditions, and source location |
+| `Notes` | Concise paper-level findings, interpretations, limitations, and open questions |
+| `Main` (optional) | Your synthesis across papers: supported conclusions, disagreements, and research gaps |
 
-| Sheet | What belongs here | Row rule |
-| --- | --- | --- |
-| `Papers` | Bibliography, DOI, local source paths, relevance, reading status, and next action | One publication per row |
-| `Reported Data` | Measurements, sample identity, processing and measurement conditions, units, uncertainty, and source location | One distinct observation or condition per row |
-| `Notes` | Concise findings, authors' explanations, limitations, contradictions, and open questions | Follow the established paper-level layout |
-| `Main` (optional) | Your developing synthesis and, in the website example, narrative and figure placement | Follow the example's narrative structure |
+The IZrO example workbook illustrates this structure. Adapt the property columns to your own topic.
 
-Use stable Paper IDs and reuse them exactly across sheets. The extraction skills commonly use `FirstAuthor_Year`, with suffixes where needed; retain your workbook's existing convention. Observation IDs such as `O1`, `O2`, and `O3` must remain unique across `Reported Data`.
+Give each paper a stable Paper ID and reuse it across sheets. Give each observation a unique ID. Put one number in each numeric cell, define the units, and leave unreported values blank. A blank is different from a reported zero.
 
-Put one numeric quantity in each numeric cell. Define units in headers or dedicated fields and document conversions. Leave unreported values blank; zero means a reported zero. Record at least the Paper ID, page or figure/table/panel, sample or condition, and evidence type for each important observation.
+Record the source page, figure, table, or panel for important observations. Keep sample preparation and measurement conditions with the values. Label digitised estimates and calculated quantities clearly; document conversions and calculations.
 
-Distinguish author-reported numbers, digitised graphical estimates, calculated quantities, and interpretations. Calculations need valid inputs, a documented formula, and units. Do not carry physical relationships from the IZrO example into another topic without checking their applicability.
+## 4. Read and extract one paper at a time
 
-## Choose the tools that fit your library
+A practical sequence is:
 
-Project 1 provides a small student workflow: PDF conversion, paired renaming, figure extraction, calibrated digitisation, and extraction into Excel. Project 2 provides a more developed subject-organised library workflow. Combine its library management with Project 1's database work; Project 2 does not supply the Excel extraction or digitisation skills.
+1. Convert the PDF to Markdown if this helps you read or extract its content. Check tables, symbols, and equations against the PDF. Scanned papers may need OCR.
+2. Give the PDF and Markdown matching, consistent names based on verified citation details.
+3. Read the methods, relevant results, figures, and limitations.
+4. Extract useful observations into Excel, keeping units, conditions, and source locations.
+5. Write concise notes that distinguish reported findings from the authors' explanations and your own interpretation.
+6. Check the saved entries against the original paper before marking them verified.
 
-| Need | Skill or helper | Source |
-| --- | --- | --- |
-| Process and file incoming papers | `run-literature-intake` | Project 2 |
-| Convert a subject folder, with local OCR when needed | `pdf-to-markdown` | Project 2 |
-| Give PDF/Markdown pairs bibliographic names | `rename-literature-papers` | Both projects; conventions differ |
-| Extract complete figures from a selected paper | `extract-paper-figures` | Project 2 |
-| Read a selected paper with a synthesis and figure gallery | `in-depth-paper-summary` | Project 2 |
-| Create or update a survey of selected subject folders | `make-literature-survey` | Project 2 |
-| Digitise selected plots with calibration and source checks | `digitize-figure-data` | Project 1 |
-| Add or enrich a paper in Excel | `extract-paper-info` | Project 1 |
-| Revise scientific prose consistently | `sebastian-writing-style` | Project 2 |
+Prefer author-reported numbers or downloadable data. When useful values appear only in a graph, digitise the plot with calibrated axes and retain the CSV, series labels, units, and calibration notes. Use precision appropriate to the image.
 
-Use a simple layout when beginning: `literature/` for PDFs, its `markdown/` and `figures/` subfolders for derived sources, `data/literature.xlsx` for the database, and `records/` for searches and reading actions. Project 1's helper commands use that layout once the helpers and dependencies are supplied:
+## 5. Use tools to help
 
-```powershell
-python convert_pdfs.py --folder literature
-python extract_figures.py --folder literature --pdf 2024_Smith
-```
+Python helpers and Codex skills can assist with repetitive work. Use the tools you have installed and check their setup instructions before processing a large library.
 
-For a larger existing collection, Project 2 uses top-level subject folders (called mother folders), nested PDF categories, and one flat `markdown/` directory per mother. Its `.literature-intake` folder receives new papers; operational helpers, plans, and caches live in a separate local scripts folder. Configure the library and scripts paths before use. Its packaged skills retain source-computer paths, and changing configuration alone does not repair every reference. Follow its migration instructions and test one paper before batch processing.
+| Task | Relevant skill |
+| --- | --- |
+| Convert PDFs to readable text | `pdf-to-markdown` |
+| Rename matching PDF and Markdown files | `rename-literature-papers` |
+| Check and file incoming papers | `run-literature-intake` |
+| Extract figures and captions | `extract-paper-figures` |
+| Read a paper with a summary and figure gallery | `in-depth-paper-summary` |
+| Digitise quantitative plots | `digitize-figure-data` |
+| Add or update paper records in Excel | `extract-paper-info` |
+| Draft or update a survey of selected folders | `make-literature-survey` |
 
-Project 2 intake converts, renames, checks duplicates, and files pairs into existing categories. It preserves repeated files and does not create new subject categories automatically. Its conversion and naming workflows skip documents longer than 30 pages and deliberately retained `REPEATED_` files; report those gaps and read relevant long documents separately. Those limits are implementation choices, not literature inclusion criteria.
-
-Choose one naming convention for your project. Project 1 uses a short two-to-four-word title phrase; Project 2 uses six-to-eight words and `_v2`, `_v3` suffixes for collisions. Both require verified publication metadata and preserve paired files. Database deduplication remains separate: preserving two source files does not justify inserting the same publication twice into `Papers`.
-
-Routine intake does not automatically extract figures, summarise papers, update Excel, or write folder surveys. Request those stages when useful. A folder survey describes the available local collection; it does not establish that the global literature is current or exhaustively covered.
-
-## 4. Process one paper from source to verified record
-
-The following tools are available in the source projects. This guidance file does not install or bundle them. Check the scripts and skills supplied with your chosen project before running commands: the original website and portable starter use different library paths and converter options.
-
-| Stage | Tool | What you must inspect |
-| --- | --- | --- |
-| Convert PDF text to Markdown | `convert_pdfs.py` | Tables, symbols, equations, and reading order against the PDF; scanned papers may need OCR |
-| Rename paired files | `rename-literature-papers` skill | Bibliographic metadata, matching PDF/Markdown names, and the rename log |
-| Extract figures and captions | `extract_figures.py` | Complete axes, legends, captions, and panels against the original figure |
-| Recover useful plotted values | `digitize-figure-data` skill with WebPlotDigitizer | Axis calibration, linear/log scales, series identity, units, and graphical precision |
-| Populate Excel | `extract-paper-info` skill | Duplicate handling, source locations, values, conditions, IDs, and formatting |
-
-Rename before extracting figures so that source paths remain consistent. Prefer reported tables or downloadable numerical data to digitising the same evidence. Digitise only quantitative plots that contribute to your questions; retain the CSV and calibration note beside the image.
-
-Once the project skills are installed, example requests are:
+For example, once the relevant skill is installed:
 
 ```text
-$rename-literature-papers rename matching PDF and Markdown pairs in [library path].
-
-$digitize-figure-data digitize [figure image path] and cross-check against [paper Markdown path].
-
-$extract-paper-info add [paper Markdown path] to [workbook path], preserving its existing schema and using [CSV path] where relevant.
+$extract-paper-info add [paper path] to [workbook path], preserving its existing structure and recording evidence locations.
 ```
 
-Make a recoverable workbook backup before editing. Check DOI and Paper ID before insertion; enrich an existing record rather than creating a duplicate. Paper extraction should update `Papers`, `Reported Data`, and `Notes`; changing `Main` is a separate synthesis task.
+Back up the workbook before editing. Update existing paper records rather than inserting duplicates. AI-assisted extraction still needs your verification against the source.
 
-Read the methods, results, and limitations yourself. Compare the saved entries with the original PDF before marking them verified. Converted text and AI-generated summaries are aids to reading; the original source supports the scientific claim.
+## 6. Compare and maintain
 
-## 5. Turn records into understanding
+Compare results only after checking units, definitions, methods, and conditions. Use filters and plots to answer specific questions. Investigate unusual points and disagreements before drawing conclusions.
 
-Keep three levels explicit: what was measured, how the authors explain it, and what you conclude after comparing studies. Write short, source-linked notes that can be revised independently. Where the example uses knowledge-nugget columns, use concise standalone findings, preferably fewer than 30 words each.
+Set aside regular time to:
 
-Compare observations only after checking definitions, units, sample preparation, and measurement conditions. Use filters and reproducible plots to answer specific questions. Investigate outliers and disagreements in the source papers before drawing conclusions or averaging results.
+- Search for new papers and update the reading queue.
+- Extract and verify the most relevant evidence.
+- Correct earlier entries and record why they changed.
+- Revise notes, comparisons, and research gaps.
+- Save a dated database backup and record meaningful workflow changes in Git.
 
-Record missing evidence and conflicting explanations. Update your synthesis with supporting and contradicting Paper IDs. Let these gaps determine the next searches.
+Keep private databases and licensed PDFs in backed-up storage. Git does not back up files excluded from the repository. Share only material intended for public use.
 
-## 6. Maintain a regular cycle
-
-Choose a manageable cadence, such as a weekly session:
-
-1. Repeat useful searches and follow citations; record the date and coverage.
-2. Deduplicate new papers and update the reading queue.
-3. Read and extract the most relevant papers.
-4. Check new entries and correct earlier mistakes, recording what changed and why.
-5. Revisit notes, comparisons, contradictions, and open questions.
-6. Save a dated database backup and commit meaningful changes to workflow files.
-
-Keep private workbooks and licensed PDFs in backed-up storage. Git only preserves files that are tracked: an ignored workbook needs its own backup and transfer plan. When moving computers, transfer the private sources and database separately and recreate the Python environment from dependency files.
-
-The initial intensive survey can finish when repeated searches mostly return known work and the remaining gaps become specific. Record a research map: key papers, comparable observations, supported conclusions, unresolved disagreements, and the next experiments or searches. Continue maintaining it as the project develops. Describe your actual search coverage; do not call an informal survey exhaustive or systematic.
-
-## 7. Share a website when it becomes useful
-
-The [literature-site example](https://github.com/seb-bonilla/literature-site/) adds Python-generated figures, searchable CSV tables, MkDocs, and GitHub Pages. Excel remains the editable source; website files are regenerated outputs. Website publication is optional for establishing and maintaining the database.
-
-Before sharing, check values and provenance, figure labels, links, and generated tables. Review the exported content as well as the workbook: excluding the workbook from Git does not keep its exported data private. Publish only material intended for sharing, and keep licensed source PDFs outside the public repository.
-
-## A paper is ready to use when
-
-- Its bibliography is verified and duplicate records have been checked.
-- Important observations include units, conditions, and retrievable evidence locations.
-- Digitised and calculated values are labelled with their provenance.
-- Notes separate reported findings, author interpretation, and your synthesis.
-- Unresolved checks and next actions are recorded.
-- The saved workbook reopens correctly and you have checked the entries against the source.
-
-For the complete source workflow, consult the [Project 1 manual](https://github.com/seb-bonilla/literature-site/blob/main/manual.md) and [project context](https://github.com/seb-bonilla/literature-site/blob/main/PROJECT_CONTEXT.md). The manual describes both general survey practice and a specific website implementation; adapt its fields and tools to your own research.
-
+The initial survey has reached a useful stopping point when you can explain the main findings, the strength of their evidence, the unresolved questions, and what to investigate next. Continue updating that understanding throughout your research.
