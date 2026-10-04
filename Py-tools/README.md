@@ -8,9 +8,12 @@ Open **Anaconda Prompt**, change to the repository folder, and create the conda 
 cd /d "C:\path\to\lit-survey"
 conda env create -f Py-tools/environment.yml
 conda activate literature-survey
+python -m pip check
 ```
 
-The environment uses Python 3.12 and packages from conda-forge. It includes dependencies for PDF conversion and figure extraction. No pip installation is needed.
+The environment uses Python 3.12. Conda installs Python and the figure-extraction dependencies from conda-forge, then automatically runs pip **inside that same environment** to install Docling and its RapidOCR dependencies. There is no separate virtual environment or additional pip command to run for the setup above.
+
+This mixed setup is needed on Windows because Docling depends on `docling-parse`, which is not available as a Windows conda-forge package. Do not add Docling to the conda dependency list; it belongs in the YAML file's `pip` section.
 
 For an existing environment, update it with:
 
@@ -19,10 +22,12 @@ conda env update -n literature-survey -f Py-tools/environment.yml
 conda activate literature-survey
 ```
 
-To add the packages manually to an existing Python 3.12 conda environment:
+If you prefer to install manually, activate your Python 3.12 conda environment first, then run these commands in order:
 
 ```bat
-conda install -c conda-forge "docling>=2.126,<3" "rapidocr>=3.9,<4" onnxruntime pypdfium2 pymupdf pillow
+conda install -c conda-forge pip pypdfium2 pymupdf pillow
+python -m pip install "docling[rapidocr]>=2.126,<3"
+python -m pip check
 ```
 
 Activate `literature-survey` each time you open a new prompt. All Python commands below use that active environment. To run from a script without activation, use `conda run -n literature-survey python ...`.
@@ -84,4 +89,4 @@ The default output is `<literature-root>/.literature-intake/temp_figs/<paper-ste
 
 Crops are heuristic. Inspect panels, axes, legends, captions, and warnings against the PDF. These tools do not digitise plots or populate Excel.
 
-Package documentation: [Docling on conda-forge](https://anaconda.org/conda-forge/docling) and [Docling model-download CLI](https://docling-project.github.io/docling/reference/cli/).
+Package documentation: [Docling installation](https://docling-project.github.io/docling/getting_started/installation/) and [Docling model-download CLI](https://docling-project.github.io/docling/reference/cli/).

@@ -4,9 +4,10 @@ channels:
   - nodefaults
 dependencies:
   - python=3.12
-  - docling>=2.126,<3
-  - rapidocr>=3.9,<4
-  - onnxruntime
+  - pip
   - pypdfium2
   - pymupdf
   - pillow
+  # Docling's parser has Windows wheels on PyPI, but no win-64 conda build.
+  - pip:
+      - "docling[rapidocr]>=2.126,<3"
