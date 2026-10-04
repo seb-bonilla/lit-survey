@@ -1,6 +1,8 @@
 # Lit-Site: turn your literature workbook into a website
 
-This optional extension publishes the synthesis written in your Excel workbook's `Main` sheet. Continue collecting and verifying papers with the Python tools and Codex skills first. Excel remains your editable source; this extension reads it without changing it and generates `docs/index.md` for MkDocs.
+This optional extension publishes the synthesis written in your Excel workbook's `Main` sheet as a website that can be shared and you can use it for discussions with colleagues or supervisor. 
+
+Continue collecting and verifying papers with the Python tools and Codex skills first. Excel remains your editable source; this extension reads the excel database without changing it and generates a `docs/index.md` for running a MkDocs function (the one that help you convert the excel into a simple website).
 
 MkDocs builds the website. Its built-in **Read the Docs theme** gives it a documentation layout. **GitHub Pages** and **Read the Docs** are separate hosting choices: both can build the files stored in your GitHub repository. Viewing a Markdown file on GitHub also works, but embedded interactive HTML figures need the built website.
 
