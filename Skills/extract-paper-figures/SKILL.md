@@ -15,7 +15,7 @@ Use this skill only for papers the user selects. Figure extraction is an optiona
 - Literature root: `<literature-root>`
 - Temporary output root: `<literature-root>/.literature-intake/temp_figs`
 - Helper: `<repository-root>/Py-tools/extract_figures.py`
-- Python: `Python from your configured environment`
+- Python: `Python from the activated literature-survey conda environment`
 
 Never place extracted figures in a subject mother folder or its `markdown` folder.
 

@@ -25,7 +25,7 @@ Do not interpret a different folder as the intake unless the user explicitly ove
    - Search recursively for PDFs, excluding `markdown`, `temp_figs`, and files beginning `REPEATED_`.
    - Ignore PDFs longer than 30 pages.
    - Preserve existing usable Markdown.
-   - Use AnyDoc normally and local Docling/RapidOCR only when OCR is needed.
+   - Use local Docling/RapidOCR from the activated conda environment.
 2. Read and apply `$rename-literature-papers` to `.literature-intake`.
    - Rename every complete eligible pair to `YEAR_FirstAuthor_FinalAuthor_JOURNAL_six-to-eight-word-title-phrase`.
    - Give repeated bibliographic records or target stems `_v2`, `_v3`, and later suffixes; never discard a duplicate merely because it is repeated.
@@ -62,4 +62,4 @@ Provide one table with:
 
 Show these as explicit table columns so the filing location is readable without opening a link. Report actual verified destinations after filing, not proposed locations. For papers left in intake, identify `.literature-intake` as the current mother folder, give their current subfolder and available file links, and state why they were not filed. The Markdown destination remains the mother's flat `markdown` folder even when the PDF is filed in a subject subfolder.
 
-Then report conversion totals split by AnyDoc and OCR, existing Markdown skips, long-document skips, conversion or rename failures, unpaired or ambiguous files, and confirmation that the existing folder structure was preserved.
+Then report Docling conversion totals, existing Markdown skips, long-document skips, conversion or rename failures, unpaired or ambiguous files, and confirmation that the existing folder structure was preserved.

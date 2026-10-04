@@ -1,0 +1,13 @@
+name: literature-survey
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.12
+  - docling>=2.126,<3
+  - rapidocr>=3.9,<4
+  - onnxruntime
+  - pypdfium2
+  - pymupdf
+  - pillow
+  - reportlab

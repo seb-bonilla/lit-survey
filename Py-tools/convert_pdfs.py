@@ -198,18 +198,8 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def load_anydoc():
-    try:
-        import anydoc
-    except ImportError as exc:
-        raise RuntimeError(
-            f"AnyDoc is not installed. Run {SCRIPTS_ROOT / 'setup_conversion.ps1'} first."
-        ) from exc
-    return anydoc
-
-
 def load_docling_converter():
-    """Build a local RapidOCR converter using only project-scoped models."""
+    """Build a local PDF converter with RapidOCR and project-scoped models."""
     if not DOCLING_MODELS_DIR.is_dir():
         raise RuntimeError(
             "Docling models are missing. Run the model-download step described "
@@ -222,24 +212,23 @@ def load_docling_converter():
     try:
         from docling.datamodel.base_models import InputFormat
         from docling.datamodel.pipeline_options import (
-            OcrMode,
             PdfPipelineOptions,
             RapidOcrOptions,
         )
         from docling.document_converter import DocumentConverter, PdfFormatOption
     except ImportError as exc:
         raise RuntimeError(
-            "Docling with RapidOCR is not installed. Run "
-            f"{SCRIPTS_ROOT / 'setup_conversion.ps1'} first."
+            "Docling with RapidOCR is not installed. Create and activate the "
+            "conda environment described in Py-tools/README.md."
         ) from exc
 
     pipeline_options = PdfPipelineOptions(
         artifacts_path=DOCLING_MODELS_DIR,
         do_ocr=True,
+        enable_remote_services=False,
         ocr_options=RapidOcrOptions(
             backend="onnxruntime",
             lang=["en"],
-            mode=OcrMode.DEFAULT,
         ),
     )
     return DocumentConverter(
@@ -351,44 +340,25 @@ def convert_folder(
         )
         return 1 if page_count_failures else 0
 
-    anydoc = load_anydoc()
+    docling_converter = load_docling_converter()
     output_dir.mkdir(exist_ok=True)
 
-    converted_anydoc = 0
-    converted_ocr = 0
+    converted_docling = 0
     failures: list[tuple[str, str]] = list(page_count_failures) + requested_skips
-    docling_converter = None
     for pdf_file, output_file in jobs:
         source = str(pdf_file.relative_to(folder))
         try:
-            markdown = anydoc.to_markdown(native_path(pdf_file))
+            markdown = convert_with_docling(docling_converter, pdf_file)
             write_markdown_atomic(output_file, markdown)
-            converted_anydoc += 1
-            print(f"OK AnyDoc: {source} -> {output_file.name}")
-        except anydoc.NeedsOcrError as exc:
-            print(f"OCR FALLBACK: {source}: {exc}")
-            try:
-                if docling_converter is None:
-                    docling_converter = load_docling_converter()
-                markdown = convert_with_docling(docling_converter, pdf_file)
-                write_markdown_atomic(output_file, markdown)
-                converted_ocr += 1
-                print(f"OK Docling/RapidOCR: {source} -> {output_file.name}")
-            except Exception as ocr_exc:
-                failures.append(
-                    (source, f"{type(ocr_exc).__name__}: {ocr_exc}")
-                )
-                print(
-                    f"FAILED OCR: {source}: "
-                    f"{type(ocr_exc).__name__}: {ocr_exc}"
-                )
+            converted_docling += 1
+            print(f"OK Docling: {source} -> {output_file.name}")
         except Exception as exc:  # One difficult paper should not stop the batch.
             failures.append((source, f"{type(exc).__name__}: {exc}"))
             print(f"FAILED: {source}: {type(exc).__name__}: {exc}")
 
     print(
-        f"Complete: {converted_anydoc} via AnyDoc, {converted_ocr} via "
-        f"Docling/RapidOCR, {skipped} existing skipped, "
+        f"Complete: {converted_docling} via Docling/RapidOCR, "
+        f"{skipped} existing skipped, "
         f"{len(skipped_long)} long documents ignored, {len(failures)} failed"
     )
     if failures:
