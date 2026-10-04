@@ -16,7 +16,7 @@ def default_output_root():
         raise SystemExit(f"Set literature_root in {CONFIG_PATH}, or pass --output-root") from exc
     if not root.is_dir():
         raise SystemExit(f"Literature root does not exist: {root}; configure it or pass --output-root")
-    return root / ".literature-intake" / "temp_figs"
+    return root / "temp_figs"
 
 CAPTION_RE = re.compile(r"^\s*(?:fig(?:ure)?\.?|scheme)\s*([A-Z]?\d+)(?:\.(?!\d)|\s+(?=(?-i:[A-Z])|\())", re.I)
 

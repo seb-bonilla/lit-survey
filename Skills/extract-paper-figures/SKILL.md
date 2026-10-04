@@ -1,6 +1,6 @@
 ---
 name: extract-paper-figures
-description: Extract complete figures with all panels together and captions included in the figure image from a selected scientific PDF. Use when the user asks to see, inspect, or extract figures from a particular literature paper. Store every output only in the Literature Intake temporary-figures folder; do not run automatically for all intake papers.
+description: Extract complete figures with all panels together and captions included in the figure image from a selected scientific PDF. Use when the user asks to see, inspect, or extract figures from a particular literature paper. Store every output only in the literature root temporary-figures folder; do not run automatically for all intake papers.
 ---
 
 Resolve `<repository-root>` to this checkout. Read `Py-tools/project_config.json` there for `<literature-root>`; relative paths are relative to `Py-tools`. Use a separate local working directory for plans and caches. If this skill is installed elsewhere, retain the checkout path in the student project context.
@@ -13,7 +13,7 @@ Use this skill only for papers the user selects. Figure extraction is an optiona
 ## Fixed locations
 
 - Literature root: `<literature-root>`
-- Temporary output root: `<literature-root>/.literature-intake/temp_figs`
+- Temporary output root: `<literature-root>/temp_figs`
 - Helper: `<repository-root>/Py-tools/extract_figures.py`
 - Python: `Python from the activated literature-survey conda environment`
 

@@ -115,7 +115,7 @@ python Py-tools/extract_figures.py --pdf "path/to/paper.pdf"
 python Py-tools/extract_figures.py --pdf "path/to/paper.pdf" --output-root "path/to/figures"
 ```
 
-The default output is `<literature-root>/.literature-intake/temp_figs/<paper-stem>/Figure_01/`, containing a complete JPEG and `caption.txt`. An explicit output root works without library configuration. Existing output is preserved; `--replace` deletes and regenerates only that paper's output folder, so use it deliberately.
+The default output is `<literature-root>/temp_figs/<paper-stem>/Figure_01/`, containing a complete JPEG and `caption.txt`. An explicit output root works without library configuration. Existing output is preserved; `--replace` deletes and regenerates only that paper's output folder, so use it deliberately.
 
 Crops are heuristic. Inspect panels, axes, legends, captions, and warnings against the PDF. These tools do not digitise plots or populate Excel.
 

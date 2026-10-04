@@ -14,7 +14,7 @@ Process everything eligible in the fixed intake folder and file it into the exis
 
 - Literature root: `<literature-root>`
 - Intake mother folder: `.literature-intake`
-- Temporary figures: `.literature-intake\temp_figs`
+- Temporary figures: `<literature-root>/temp_figs`
 - Workflow resources: `<working-directory>`
 
 Do not interpret a different folder as the intake unless the user explicitly overrides the location.

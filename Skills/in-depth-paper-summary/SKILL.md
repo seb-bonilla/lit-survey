@@ -14,7 +14,7 @@ Deliver a readable paper overview directly in chat. Default to one selected pape
 
 - Literature root: `<literature-root>`
 - Figure skill: `../extract-paper-figures/SKILL.md`
-- Temporary figure root: `<literature-root>/.literature-intake/temp_figs`
+- Temporary figure root: `<literature-root>/temp_figs`
 
 Resolve an exact path, title, or bibliographic stem to one paper. Use the paper already selected in the conversation when clear; ask for a selection only if none is available or multiple matches remain. Do not process the whole library or run intake.
 
@@ -37,4 +37,3 @@ Render each image in the final answer with Markdown image syntax and its absolut
 ## Chat delivery
 
 Start with the paper title and its citation details (journal, year, volume, pages or article number, and DOI when available), retaining clickable local PDF and Markdown links. Show only the first author and last author from the published author order, with their full names and clearly labelled roles. For each, show all affiliations attached to that author in the paper, matching the author superscripts to the affiliation entries; include the institution, department or laboratory, and location as supplied. Use affiliations at publication, not current affiliations. Do not list the intervening authors or substitute corresponding authors for the first and last authors. If both authors share an affiliation, it may be written once and explicitly marked as shared. For a single-author paper, show the author once. Verify names and affiliation mappings against the PDF when the Markdown is ambiguous; do not invent expanded names or missing affiliations, and state briefly when the source does not supply them. Follow with the abstract, the 200-word synthesis, and the image gallery. Keep extraction counts and any limitations brief. Deliver directly in chat; do not create a separate summary document unless requested. If one component is unavailable, still deliver the supported components and identify the gap.
-

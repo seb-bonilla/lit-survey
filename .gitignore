@@ -8,3 +8,4 @@ literature/
 data/*.xlsx
 # Separate backups and operational scratch
 backups/
+temp_figs/
