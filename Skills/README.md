@@ -8,7 +8,7 @@ Create and activate the `literature-survey` conda environment using [the Python 
 
 ## Literature workflow
 
-- `pdf-to-markdown`: local Docling conversion with OCR when needed.
+- `pdf-to-markdown`: fast local AnyDoc conversion, with Docling/RapidOCR fallback only when needed.
 - `rename-literature-papers`: verified bibliographic naming of PDF/Markdown pairs.
 - `run-literature-intake`: conversion, naming, duplicate checks, and filing into existing subject folders.
 - `extract-paper-figures`: complete figures and captions for a selected paper.

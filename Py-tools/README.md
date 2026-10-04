@@ -11,7 +11,7 @@ conda activate literature-survey
 python -m pip check
 ```
 
-The environment uses Python 3.12. Conda installs Python and the figure-extraction dependencies from conda-forge, then automatically runs pip **inside that same environment** to install Docling and its RapidOCR dependencies. There is no separate virtual environment or additional pip command to run for the setup above.
+The environment uses Python 3.12. Conda installs Python and the figure-extraction dependencies from conda-forge, then automatically runs pip **inside that same environment** to install AnyDoc and Docling with its RapidOCR dependencies. There is no separate virtual environment or additional pip command to run for the setup above.
 
 This mixed setup is needed on Windows because Docling depends on `docling-parse`, which is not available as a Windows conda-forge package. Do not add Docling to the conda dependency list; it belongs in the YAML file's `pip` section.
 
@@ -26,7 +26,7 @@ If you prefer to install manually, activate your Python 3.12 conda environment f
 
 ```bat
 conda install -c conda-forge pip pypdfium2 pymupdf pillow
-python -m pip install "docling[rapidocr]>=2.126,<3"
+python -m pip install firecrawl-anydoc==0.2.4 "docling[rapidocr]>=2.126,<3"
 python -m pip check
 ```
 
@@ -36,9 +36,11 @@ Activate `literature-survey` each time you open a new prompt. All Python command
 
 Set `literature_root` in `Py-tools/project_config.json` to your paper library. Relative paths are resolved from `Py-tools`; the default `../literature` means a `literature` folder in the repository root. Subject subfolders are optional. This configuration is used for `root`, subject-name selection, and default figure output; explicit conversion paths do not require it. Keep private papers and outputs out of the public repository.
 
-## Download conversion models once
+## Download OCR fallback models once (optional for text-based PDFs)
 
-**Docling** is the Python library that converts PDFs. It uses downloaded models to recognise page layout, tables, and text in images. **Docker is not required**: the tools run directly in your conda environment.
+**AnyDoc** is the default converter. It reads text-based PDFs locally, without OCR or downloaded models. Only if AnyDoc raises an error (including a request for OCR) or returns empty text does the script try **Docling with RapidOCR**. Docling is loaded only when a paper needs that fallback and reused for subsequent failures in the batch.
+
+The models below are needed only for the Docling fallback. You can convert ordinary text-based PDFs before downloading them. If a paper needs fallback and the models are missing, the script reports that failure and continues with the other papers. **Docker is not required**: both converters run directly in your conda environment.
 
 After creating the environment, run the following in **Anaconda Prompt**. Start in the repository root: the folder containing `Py-tools` and `Skills`, not inside `Py-tools`.
 
@@ -48,9 +50,9 @@ conda activate literature-survey
 python -m docling.cli.tools models download layout tableformer rapidocr --rapidocr-backend-lang "onnxruntime:en" --output-dir Py-tools/docling-models
 ```
 
-Replace the example path with your repository's location. The command runs Docling's download utility using Python from the active conda environment. It saves the layout, table, and English OCR models in `Py-tools/docling-models` beneath the current folder. Wait for the command to finish successfully before converting papers. You normally need to do this only once per computer; repeat it if the models are removed or a dependency update requires new models.
+Replace the example path with your repository's location. The command runs Docling's download utility using Python from the active conda environment. It saves the layout, table, and English OCR models in `Py-tools/docling-models` beneath the current folder. Wait for the command to finish successfully before processing papers that need the OCR fallback. You normally need to do this only once per computer; repeat it if the models are removed or a dependency update requires new models.
 
-The download needs internet access and may take several minutes. Subsequent conversion uses the saved models locally with remote services disabled. It does not upload papers or require an OpenAI API key. Figure extraction does not need these models.
+The download needs internet access and may take several minutes. Docling fallback uses the saved models locally with remote services disabled. AnyDoc is called without hosted OCR. It does not upload papers or require an OpenAI API key. Figure extraction does not need these models.
 
 ### Windows PowerShell alternative
 
@@ -104,7 +106,7 @@ Explicit relative paths such as `./papers`, `../papers`, and `.` also work witho
 
 All selected PDFs are searched recursively. Output goes into one flat `markdown` directory inside the selected folder, including when selecting `root` or an external path. Repeated filenames receive folder prefixes. Generated `markdown`, `temp_figs`, and model folders are excluded at every level. Existing Markdown is preserved unless `--overwrite` is requested. PDFs longer than 30 pages and `REPEATED_` files are skipped; these limits do not define your research scope.
 
-The converter still uses the Docling models downloaded into this repository's `Py-tools/docling-models`; choosing an external PDF folder does not relocate the models. Inspect output against the original PDF, especially equations, symbols, tables, and reading order.
+When fallback is needed, the converter uses the Docling models downloaded into this repository's `Py-tools/docling-models`; choosing an external PDF folder does not relocate the models. Inspect output against the original PDF, especially equations, symbols, tables, and reading order.
 
 ## Extract complete figures
 
@@ -117,4 +119,4 @@ The default output is `<literature-root>/.literature-intake/temp_figs/<paper-ste
 
 Crops are heuristic. Inspect panels, axes, legends, captions, and warnings against the PDF. These tools do not digitise plots or populate Excel.
 
-Package documentation: [Docling installation](https://docling-project.github.io/docling/getting_started/installation/) and [Docling model-download CLI](https://docling-project.github.io/docling/reference/cli/).
+Package documentation: [AnyDoc](https://github.com/firecrawl/anydoc), [Docling installation](https://docling-project.github.io/docling/getting_started/installation/) and [Docling model-download CLI](https://docling-project.github.io/docling/reference/cli/).

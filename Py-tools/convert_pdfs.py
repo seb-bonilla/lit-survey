@@ -179,6 +179,17 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def load_anydoc():
+    try:
+        import anydoc
+    except ImportError as exc:
+        raise RuntimeError(
+            "AnyDoc is not installed. Activate literature-survey and run "
+            "python -m pip install firecrawl-anydoc==0.2.4"
+        ) from exc
+    return anydoc
+
+
 def load_docling_converter():
     """Build a local PDF converter with RapidOCR and project-scoped models."""
     if not DOCLING_MODELS_DIR.is_dir():
@@ -321,24 +332,63 @@ def convert_folder(
         )
         return 1 if page_count_failures else 0
 
-    docling_converter = load_docling_converter()
+    try:
+        anydoc = load_anydoc()
+    except RuntimeError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 2
     output_dir.mkdir(exist_ok=True)
 
-    converted_docling = 0
+    converted_anydoc = 0
+    converted_ocr = 0
+    docling_converter = None
+    docling_load_error = None
     failures: list[tuple[str, str]] = list(page_count_failures) + requested_skips
     for pdf_file, output_file in jobs:
         source = str(pdf_file.relative_to(folder))
+        engine = "AnyDoc"
         try:
-            markdown = convert_with_docling(docling_converter, pdf_file)
+            # No hosted OCR options: AnyDoc reads text locally without ML models.
+            markdown = anydoc.to_markdown(native_path(pdf_file))
+            if not isinstance(markdown, str) or not markdown.strip():
+                raise RuntimeError("AnyDoc returned empty or invalid Markdown")
+        except Exception as anydoc_exc:
+            print(f"FALLBACK Docling/RapidOCR: {source}: {type(anydoc_exc).__name__}: {anydoc_exc}")
+            try:
+                # Load expensive models only once, and only after a failed AnyDoc attempt.
+                if docling_load_error is not None:
+                    raise RuntimeError(docling_load_error)
+                if docling_converter is None:
+                    try:
+                        docling_converter = load_docling_converter()
+                    except Exception as exc:
+                        docling_load_error = f"{type(exc).__name__}: {exc}"
+                        raise
+                markdown = convert_with_docling(docling_converter, pdf_file)
+                engine = "Docling/RapidOCR"
+            except Exception as ocr_exc:
+                reason = (f"AnyDoc: {type(anydoc_exc).__name__}: {anydoc_exc}; "
+                          f"Docling/RapidOCR: {type(ocr_exc).__name__}: {ocr_exc}")
+                failures.append((source, reason))
+                print(f"FAILED: {source}: {reason}")
+                continue
+
+        try:
             write_markdown_atomic(output_file, markdown)
-            converted_docling += 1
-            print(f"OK Docling: {source} -> {output_file.name}")
-        except Exception as exc:  # One difficult paper should not stop the batch.
-            failures.append((source, f"{type(exc).__name__}: {exc}"))
-            print(f"FAILED: {source}: {type(exc).__name__}: {exc}")
+        except Exception as exc:
+            # A disk error must not trigger another expensive conversion.
+            reason = f"Save failed: {type(exc).__name__}: {exc}"
+            failures.append((source, reason))
+            print(f"FAILED: {source}: {reason}")
+            continue
+        if engine == "AnyDoc":
+            converted_anydoc += 1
+        else:
+            converted_ocr += 1
+        print(f"OK {engine}: {source} -> {output_file.name}")
 
     print(
-        f"Complete: {converted_docling} via Docling/RapidOCR, "
+        f"Complete: {converted_anydoc} via AnyDoc, {converted_ocr} via Docling/RapidOCR, "
         f"{skipped} existing skipped, "
         f"{len(skipped_long)} long documents ignored, {len(failures)} failed"
     )

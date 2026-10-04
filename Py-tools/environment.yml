@@ -10,4 +10,5 @@ dependencies:
   - pillow
   # Docling's parser has Windows wheels on PyPI, but no win-64 conda build.
   - pip:
+      - firecrawl-anydoc==0.2.4
       - "docling[rapidocr]>=2.126,<3"
