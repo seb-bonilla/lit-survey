@@ -1,0 +1,5 @@
+site/
+*.xlsx
+*.xlsm
+__pycache__/
+*.py[cod]
