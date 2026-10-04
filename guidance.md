@@ -1,27 +1,30 @@
-# Starting and maintaining your literature survey
+# Starting and maintaining a literature survey
 
-Use your literature survey to answer a research question, compare evidence, and identify what to investigate next. Keep the original papers, an Excel database, and your developing conclusions connected so that important claims can be checked and updated.
+A **literature survey** is a structured review of existing research on a topic. It brings together key findings, compares evidence, and identifies gaps or disagreements to explain what is known and what still needs investigation.
 
-## 1. Start with a question
+Use your literature survey to explore a research theme or question, compare evidence, and identify what to investigate next. 
 
-Write your main research question in one or two sentences. Add a few subquestions and decide which measurements, methods, or findings would help answer them. Set an initial scope and clear reasons for including or excluding papers.
+Keep the original papers nicely organised so you can go back to them. In this workflow I also teach you how to use an Excel database to record your own thinking as well as the data processing you do to the results of the literature, and keep developing your own conclusions connected to papers, so that important claims can be checked and updated.
 
-Begin with a small batch of important papers. Use them to test your database structure before collecting large amounts of data.
+## 1. Start with a topic, theme or question
+
+Decide the main research theme in one or two sentences. It can be a question, but it can also be very broad. Add a few subquestions/subtopics and decide which measurements, methods, or findings would help answer them. Set an initial scope and clear reasons for including or excluding papers.
+
+Begin with a small batch of important papers, likely the most cited on Google scholar for this specific topic. Use them to test your database structure before collecting large amounts of data.
 
 ## 2. Find and organise papers
 
 Search using topic names, synonyms, methods, properties, and applications. Include reviews, foundational papers, recent studies, and contradictory results. Follow references and papers that cite useful studies.
 
-Keep two simple records:
+The suggested Excel file will help you keep records, like the most important or foundational papers, what they say and how the connect to other works.
 
-- A search log: date, search source, query, filters, and useful results.
-- A reading queue: paper, priority, reading status, and next action.
+Save original PDFs and use a reference manager so that later on you can cite papers in your documents (Endnote, Mendeley, Zotero all do a good job). 
 
-Save original PDFs and use a reference manager if helpful. Check DOI and title to avoid duplicate records. Read the abstract, figures, tables, and conclusions first, then decide which papers deserve detailed reading.
+It's useufl to read the abstract, figures, tables, and conclusions first, then decide which papers deserve detailed reading.
 
 ## 3. Build your Excel database
 
-Use separate sheets for different kinds of information:
+I recommend that every theme of your project get its own Excel informational database. Use separate sheets for different kinds of information:
 
 | Sheet | Purpose |
 | --- | --- |
@@ -30,11 +33,13 @@ Use separate sheets for different kinds of information:
 | `Notes` | Concise paper-level findings, interpretations, limitations, and open questions |
 | `Main` (optional) | Your synthesis across papers: supported conclusions, disagreements, and research gaps |
 
-The IZrO example workbook illustrates this structure. Adapt the property columns to your own topic.
+I provide here an example for IZrO, a transparent conducting electrode becoming important in tandem solar cell research in the 2020s. The example workbook illustrates this structure. Adapt the property columns to your own topic.
 
 Give each paper a stable Paper ID and reuse it across sheets. Give each observation a unique ID. Put one number in each numeric cell, define the units, and leave unreported values blank. A blank is different from a reported zero.
 
-Record the source page, figure, table, or panel for important observations. Keep sample preparation and measurement conditions with the values. Label digitised estimates and calculated quantities clearly; document conversions and calculations.
+Record the source page, figure, table, or panel for important observations. Keep sample preparation and measurement conditions with the values and as much detail as you can find both on the paper *and in the supplementary materials*. 
+
+Label digitised estimates and calculated quantities clearly; document conversions and calculations.
 
 ## 4. Read and extract one paper at a time
 
