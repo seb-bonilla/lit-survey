@@ -90,6 +90,40 @@ python Lit-Site/build_site.py "C:\path\to\literature.xlsx" --figures Lit-Site/fi
 
 Selected assets are copied to `Lit-Site/docs/assets/figures`. Missing mappings or files produce an error rather than silently dropping a figure. Renaming or changing a source file does not update the copied asset until you regenerate. Old unused assets remain: review and remove obsolete exports before publishing, particularly if a figure should no longer be public.
 
+### Generate a figure with Python (optional)
+
+You can generate your own figures with any software and add them using the instructions above. For a Python example, look in [`figures`](figures/): [`figure1.py`](figures/figure1.py) generates Figure 1 from the supplied IZrO workbook, plotting mobility versus carrier concentration with resistivity as the colour scale and dotted isoresistivity lines.
+
+Open Anaconda Prompt at the repository root and add the plotting dependency to the same environment:
+
+```bat
+conda activate literature-survey
+conda install -c conda-forge matplotlib
+```
+
+Generate Figure 1 from the supplied IZrO v2 example workbook, or give the path to your own workbook with the same `Reported Data` headers:
+
+```bat
+python Lit-Site/figures/figure1.py "C:\path\to\izro_literature_v2.xlsx"
+```
+
+The script writes `figure1.png`, an editable `figure1.svg`, a CSV of the plotted observations, and provenance notes under `Lit-Site/example-output`. Both axes are logarithmic. Resistivity colours use logarithmic normalisation in mΩ·cm. Dotted diagonal lines show constant resistivity from the single-carrier relation μ = 1000/(q n ρ), where q = 1.602176634 × 10⁻¹⁹ C.
+
+Only rows with positive finite mobility and carrier concentration are plotted. Missing resistivity is shown as a grey cross. Workbook formula results are distinguished from entered values using marker shapes and CSV provenance. Formula values require a recalculated, saved Excel cache. The script does not change the workbook. Use `--derive-missing` only if you want genuinely blank resistivity cells calculated from n and mobility, `--label-points` for Observation ID labels, and `--iso 0.1 0.5 1 5` to choose contour values in mΩ·cm.
+
+To show this plot at a `Figure 1` marker in `Main`, use this entry in `Lit-Site/figures.json` (retain any other figure entries):
+
+```json
+{
+  "Figure 1": {
+    "file": "example-output/figure1.png",
+    "caption": "Figure 1. Mobility versus carrier concentration. Colours show resistivity on a logarithmic scale; dotted lines show constant resistivity. Calculated workbook values are distinguished by marker shape."
+  }
+}
+```
+
+Regenerate the site page with `--figures Lit-Site/figures.json`. Local example outputs are ignored by Git; only the approved figure copied into `docs/assets/figures` becomes a site asset. No plotting dependency is needed by the hosted site because the plot is generated locally.
+
 ## 5. Preview and build locally
 
 From the repository root in the activated environment:

@@ -3,3 +3,4 @@ site/
 *.xlsm
 __pycache__/
 *.py[cod]
+example-output/
