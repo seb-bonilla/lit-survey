@@ -10,4 +10,3 @@ dependencies:
   - pypdfium2
   - pymupdf
   - pillow
-  - reportlab

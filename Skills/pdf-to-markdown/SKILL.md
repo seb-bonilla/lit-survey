@@ -3,7 +3,7 @@ name: pdf-to-markdown
 description: Convert eligible PDFs of 30 pages or fewer in one top-level literature mother folder, including PDFs in nested folders, into a flat Markdown collection for LLM reading. Use local Docling with RapidOCR in the activated conda environment. Ignore documents longer than 30 pages. Do not use for paper summarisation or bibliographic renaming.
 ---
 
-Resolve `<repository-root>` to this checkout. Read `Py-tools/project_config.json` there for `<literature-root>`; relative paths are relative to `Py-tools`. Use a separate local working directory for plans and caches. Resolve `<publication-root>` from the user only for publication tasks. If this skill is installed elsewhere, retain the checkout path in the student project context.
+Resolve `<repository-root>` to this checkout. Read `Py-tools/project_config.json` there for `<literature-root>`; relative paths are relative to `Py-tools`. Use a separate local working directory for plans and caches. If this skill is installed elsewhere, retain the checkout path in the student project context.
 
 
 # PDF to Markdown

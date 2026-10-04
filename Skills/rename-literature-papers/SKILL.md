@@ -3,7 +3,7 @@ name: rename-literature-papers
 description: Inspect extracted scientific-paper Markdown and rename matching PDF and Markdown pairs with consistent bibliographic filenames while preserving the literature folder structure. Use for literature-library cleanup, publisher-download filenames, DOI-style filenames, or requests to rename papers by year, authors, journal, and title phrase. Do not use for PDF conversion or paper summarisation.
 ---
 
-Resolve `<repository-root>` to this checkout. Read `Py-tools/project_config.json` there for `<literature-root>`; relative paths are relative to `Py-tools`. Use a separate local working directory for plans and caches. Resolve `<publication-root>` from the user only for publication tasks. If this skill is installed elsewhere, retain the checkout path in the student project context.
+Resolve `<repository-root>` to this checkout. Read `Py-tools/project_config.json` there for `<literature-root>`; relative paths are relative to `Py-tools`. Use a separate local working directory for plans and caches. If this skill is installed elsewhere, retain the checkout path in the student project context.
 
 
 # Rename Literature Papers
@@ -77,11 +77,12 @@ Example:
    resembles the convention is not complete: unless it exactly matches the
    required fields and title-word count (plus an optional duplicate suffix),
    rename it from the verified bibliographic evidence.
-5. Put the validated mappings in a CSV with the columns `pdf_relative`,
-   `markdown_name`, and `new_stem`. Preview and then apply it with
-   `scripts/apply_rename_plan.py`. The helper renames each PDF within its present
-   directory and each Markdown within `markdown/`; if the second rename fails,
-   it restores the first member's original name.
+5. Apply the validated mappings directly using literal file paths. Recheck both
+   destinations before each pair. Rename the PDF within its present directory
+   and its Markdown partner within `markdown/`. If the second rename fails,
+   restore the PDF's original name and report the failure. Never overwrite an
+   existing file. Keep the old-to-new mapping available for recovery until all
+   pairs have been verified; no separate Python helper is required.
 6. Verify that all renamed pairs share a stem, that every PDF stayed in its
    original parent directory, and that no directory was added, removed, or
    renamed. Report completed, skipped, and failed counts.

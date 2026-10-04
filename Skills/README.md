@@ -14,13 +14,6 @@ Create and activate the `literature-survey` conda environment using [the Python 
 - `extract-paper-figures`: complete figures and captions for a selected paper.
 - `in-depth-paper-summary`: a selected paper's synthesis and figure gallery.
 - `make-literature-survey`: evidence-based surveys of selected subject folders.
-- `sebastian-writing-style`: concise scientific writing with its full style guide.
-
-## Optional supporting skills
-
-- `research-project-brief`: research briefs from notes.
-- `meeting-summary`: structured summaries of meeting transcripts.
-- `create-publication-linkedin-post`: draft publication posts and figure packs; does not publish automatically. Its carousel dependencies are included in the conda environment.
 
 Example after installation:
 

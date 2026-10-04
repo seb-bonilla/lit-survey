@@ -3,7 +3,7 @@ name: in-depth-paper-summary
 description: Read a selected scientific paper using its Markdown text and PDF, present its abstract and a 200-word synthesis of the discussion and conclusions, and display complete figures with all panels together and embedded captions directly in Codex chat. Use for In-Depth Paper Summary requests; standalone figure extraction uses extract-paper-figures.
 ---
 
-Resolve `<repository-root>` to this checkout. Read `Py-tools/project_config.json` there for `<literature-root>`; relative paths are relative to `Py-tools`. Use a separate local working directory for plans and caches. Resolve `<publication-root>` from the user only for publication tasks. If this skill is installed elsewhere, retain the checkout path in the student project context.
+Resolve `<repository-root>` to this checkout. Read `Py-tools/project_config.json` there for `<literature-root>`; relative paths are relative to `Py-tools`. Use a separate local working directory for plans and caches. If this skill is installed elsewhere, retain the checkout path in the student project context.
 
 
 # In-Depth Paper Summary

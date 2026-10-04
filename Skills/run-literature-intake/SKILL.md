@@ -3,7 +3,7 @@ name: run-literature-intake
 description: Process new scientific papers from the fixed Literature Intake folder through PDF conversion, bibliographic renaming, duplicate checking, autonomous subject classification, relocation, verification, and a concise intake report. Use when the user asks to run or process the literature intake. Do not use for maintenance of an arbitrary mother folder.
 ---
 
-Resolve `<repository-root>` to this checkout. Read `Py-tools/project_config.json` there for `<literature-root>`; relative paths are relative to `Py-tools`. Use a separate local working directory for plans and caches. Resolve `<publication-root>` from the user only for publication tasks. If this skill is installed elsewhere, retain the checkout path in the student project context.
+Resolve `<repository-root>` to this checkout. Read `Py-tools/project_config.json` there for `<literature-root>`; relative paths are relative to `Py-tools`. Use a separate local working directory for plans and caches. If this skill is installed elsewhere, retain the checkout path in the student project context.
 
 
 # Run Literature Intake

@@ -1,9 +1,9 @@
 ---
 name: make-literature-survey
-description: Create or update concise, scope-complete literature-survey.md files for selected mother folders in the configured literature root, using Sebastian's writing style and sections for their subfolders. Use for folder-level surveys, not individual-paper summaries or routine intake.
+description: Create or update concise, scope-complete literature-survey.md files for selected mother folders in the configured literature root, using clear scientific prose and sections for their subfolders. Use for folder-level surveys, not individual-paper summaries or routine intake.
 ---
 
-Resolve `<repository-root>` to this checkout. Read `Py-tools/project_config.json` there for `<literature-root>`; relative paths are relative to `Py-tools`. Use a separate local working directory for plans and caches. Resolve `<publication-root>` from the user only for publication tasks. If this skill is installed elsewhere, retain the checkout path in the student project context.
+Resolve `<repository-root>` to this checkout. Read `Py-tools/project_config.json` there for `<literature-root>`; relative paths are relative to `Py-tools`. Use a separate local working directory for plans and caches. If this skill is installed elsewhere, retain the checkout path in the student project context.
 
 
 # Make Literature Survey
@@ -18,7 +18,7 @@ Authoritative skill resources: `<repository-root>/Skills/make-literature-survey`
 
 Use explicitly selected folders or those clearly established in the conversation. For a survey requested after intake, use the mother folders that received papers. Ask for selection if none is established; do not default to the whole library. Use the selected folders; do not impose a fixed subject list or exclude a subject without the user choosing that scope.
 
-Read and apply `../sebastian-writing-style/SKILL.md` and its referenced style guide.
+Write clear, concise scientific prose with explicit reasoning and source-supported claims.
 
 Inspect the actual PDF folder tree and the mother's flat `markdown` directory. Map paper Markdown to source PDF locations to assign subfolder coverage. Exclude existing surveys and generated summaries from primary paper evidence.
 
@@ -40,7 +40,7 @@ Prefer one short paragraph per section; add another only when scientific coverag
 
 Identify notable discoveries, quantitative advances and specific claims using verified filename-derived markers such as `[2026_Wang_Hao_NE]`: year, first author, final author, journal. Retain a version or distinguishing title fragment if otherwise ambiguous. Establish bibliographic identity from source text for noncompliant filenames; do not invent citations or rename papers.
 
-Use British scientific English and Sebastian's direct, economical prose. Preserve quantities, units, conditions and caveats. Distinguish measured results from predictions, modelling and authors' interpretations. Avoid unsupported rankings, causal claims and novelty.
+Use direct, concise British scientific English. Preserve quantities, units, conditions and caveats. Distinguish measured results from predictions, modelling and authors' interpretations. Avoid unsupported rankings, causal claims and novelty.
 
 ## Save and report
 
