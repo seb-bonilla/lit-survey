@@ -82,6 +82,8 @@ Copy `Lit-Site/figures.example.json` to `Lit-Site/figures.json` and replace its 
 }
 ```
 
+**Select the JSON file when you run the exporter.** Saving `figures.json` inside `Lit-Site` does not load it automatically. Whenever column C contains figure markers, include `--figures Lit-Site/figures.json` in your command. The workbook is the first argument; `--figures` selects the separate file that maps each marker to an image and caption.
+
 Use forward slashes in JSON paths, or escape each backslash. Relative paths are resolved from the JSON file's folder. Supported files are PNG, JPEG, SVG, WebP, GIF, and HTML. For HTML plots, export a standalone file with its JavaScript included; linked companion files are not copied automatically.
 
 ```bat
@@ -122,7 +124,17 @@ To show this plot at a `Figure 1` marker in `Main`, use this entry in `Lit-Site/
 }
 ```
 
-Regenerate the site page with `--figures Lit-Site/figures.json`. Local example outputs are ignored by Git; only the approved figure copied into `docs/assets/figures` becomes a site asset. No plotting dependency is needed by the hosted site because the plot is generated locally.
+For example, if your repository is `C:\Users\ruybo\Documents\lit-survey`, your workbook is in that folder, and you saved the mapping as `Lit-Site/figures.json`, run these commands in Anaconda Prompt:
+
+```bat
+cd /d "C:\Users\ruybo\Documents\lit-survey"
+conda activate literature-survey
+python Lit-Site/build_site.py "izro_literature_v2.xlsx" --figures Lit-Site/figures.json
+```
+
+Replace the workbook argument with its full path if it is elsewhere. In the example JSON above, `example-output/figure1.png` means `Lit-Site/example-output/figure1.png`, because image paths are relative to the JSON file. Make sure the image exists and that the JSON key `Figure 1` matches the marker in column C.
+
+If you see “Column C contains figure markers. Supply --figures”, check that your command includes `--figures Lit-Site/figures.json`. To export only the text temporarily, use `--skip-figures` instead. Local example outputs are ignored by Git; only the approved figure copied into `docs/assets/figures` becomes a site asset. No plotting dependency is needed by the hosted site because the plot is generated locally.
 
 ## 5. Preview and build locally
 
